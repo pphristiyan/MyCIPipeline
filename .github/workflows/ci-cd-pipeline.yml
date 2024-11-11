@@ -1,0 +1,32 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Тази част указва, че пайплайнът ще се стартира при всяка промяна в main клона.
+  pull_request:
+    branches:
+      - main  # Стартира се и при Pull Request към main клона
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Използваме Ubuntu runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t myapp .
+          docker tag myapp:latest ${{ secrets.DOCKER_USERNAME }}/myapp:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/myapp:latest
