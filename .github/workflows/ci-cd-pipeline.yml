@@ -23,7 +23,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           username: ${{ hristiyanpetrovv }}
-          password: ${{ dckr_pat_IA9vlAjSPGmPg9JOWlcQXAl8duo }}
+          password: ${{ ***REMOVED*** }}
 
       - name: Build and push Docker image
         run: |
