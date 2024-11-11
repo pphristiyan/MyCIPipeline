@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Тази част указва, че пайплайнът ще се стартира при всяка промяна в main клона.
+      - main  # This triggers the pipeline on changes to the main branch.
   pull_request:
     branches:
-      - main  # Стартира се и при Pull Request към main клона
+      - main  # This triggers the pipeline on pull requests to the main branch.
 
 jobs:
   docker:
@@ -15,13 +15,10 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-         username: ${{ secrets.DOCKER_USERNAME }}  # Correctly referencing the secret for Docker username
+          username: ${{ secrets.DOCKER_USERNAME }}  # Correctly referencing the secret for Docker username
           password: ${{ secrets.DOCKER_PASSWORD }}  # Correctly referencing the secret for Docker password
 
       - name: Build and push Docker image
-        run: |
-          # Your Docker build and push commands here
-
         run: |
           docker build -t myapp .
           docker tag myapp:latest ${{ secrets.DOCKER_USERNAME }}/myapp:latest
